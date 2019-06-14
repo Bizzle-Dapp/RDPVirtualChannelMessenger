@@ -46,6 +46,9 @@ namespace Bizz_RDPVirtualChannelMessengerServer
                     }
                 case ConsoleKey.Spacebar:
                     {
+                        Console.WriteLine($"Closing channel... Outcome : {VirtualChannel.CloseChannel()}");
+                        Console.WriteLine("Press enter to close.");
+                        Console.ReadLine();
                         break;
                     }
                 default:
@@ -68,7 +71,19 @@ namespace Bizz_RDPVirtualChannelMessengerServer
 
         public static string ReadChannel()
         {
-            return "Not yet implemented";
+            string output;
+            byte[] data = new byte[1600];
+            int read = 0;
+            if(WtsApi32.WTSVirtualChannelRead(mHandle, 2000, data, data.Length, ref read))
+            {
+                output = Encoding.ASCII.GetString(data);
+            }
+            else
+            {
+                output = $"There is nothing on the channel to read... {Environment.NewLine}";
+            }
+
+            return output;
         }
         public static bool WriteChannel(string message)
         {
@@ -80,6 +95,10 @@ namespace Bizz_RDPVirtualChannelMessengerServer
                 Console.WriteLine($"Written string of {message} as a total of {data.Length.ToString()} bytes.");
             }
             return returnValue;
+        }
+        public static bool CloseChannel()
+        {
+            return WtsApi32.WTSVirtualChannelClose(mHandle);
         }
     }
 }
