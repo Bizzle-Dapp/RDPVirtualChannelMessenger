@@ -14,6 +14,7 @@ namespace Bizz_RDPVirtualChannelMessengerClient
         static ChannelEntryPoints EntryPoints;
         static int OpenChannel = 0;
         const string channelName = "BizzVC";
+        const string outputAddress = @"C:\Users\luke.schofield\Desktop\Output.txt";
 
         static ChannelInitEventDelegate channelInitEventDelegate = new ChannelInitEventDelegate(VirtualChannelInitEventProc);
         static ChannelOpenEventDelegate channelOpenEventDelegate = new ChannelOpenEventDelegate(VirtualChannelOpenEvent);
@@ -33,13 +34,13 @@ namespace Bizz_RDPVirtualChannelMessengerClient
             {
                 // Failed call of VirtualChannelEntry
                 string[] output = { $"Failed VirtualChannelEntry - {ret.ToString()} : " + DateTime.Now.ToUniversalTime() };
-                System.IO.File.WriteAllLines(@"C:\Users\luke.schofield\Desktop\Output.txt", output);
+                System.IO.File.WriteAllLines(outputAddress, output);
             }
             else
             {
                 //Success call of VirtualChannelEntry
                 string[] output = { $"Success VirtualChannelEntry - {ret.ToString()} : " + DateTime.Now.ToUniversalTime() };
-                System.IO.File.WriteAllLines(@"C:\Users\luke.schofield\Desktop\Output.txt", output);
+                System.IO.File.WriteAllLines(outputAddress, output);
             }
             return true;
         }
@@ -51,24 +52,24 @@ namespace Bizz_RDPVirtualChannelMessengerClient
             {
                 case ChannelEvents.Initialized:
                     output = new string[] { $"Channel initialised. : " + DateTime.Now.ToUniversalTime() };
-                    System.IO.File.WriteAllLines(@"C:\Users\luke.schofield\Desktop\Output.txt", output);
+                    System.IO.File.WriteAllLines(outputAddress, output);
                     break;
                 case ChannelEvents.Connected:
                     output = new string [] { $"Channel connected. Calling to channel open event delegate : " + DateTime.Now.ToUniversalTime() };
-                    System.IO.File.WriteAllLines(@"C:\Users\luke.schofield\Desktop\Output.txt", output);
+                    System.IO.File.WriteAllLines(outputAddress, output);
                     ChannelReturnCodes ret = EntryPoints.VirtualChannelOpen(initHandle, ref OpenChannel, channelName, channelOpenEventDelegate);
                     break;
                 case ChannelEvents.V1Connected:
                     output = new string[] { $"v1 connected. : " + DateTime.Now.ToUniversalTime() };
-                    System.IO.File.WriteAllLines(@"C:\Users\luke.schofield\Desktop\Output.txt", output);
+                    System.IO.File.WriteAllLines(outputAddress, output);
                     break;
                 case ChannelEvents.Disconnected:
                     output = new string[] { $"Disconnected. : " + DateTime.Now.ToUniversalTime() };
-                    System.IO.File.WriteAllLines(@"C:\Users\luke.schofield\Desktop\Output.txt", output);
+                    System.IO.File.WriteAllLines(outputAddress, output);
                     break;
                 case ChannelEvents.Terminated:
                     output = new string[] { $"Terminated. : " + DateTime.Now.ToUniversalTime() };
-                    System.IO.File.WriteAllLines(@"C:\Users\luke.schofield\Desktop\Output.txt", output);
+                    System.IO.File.WriteAllLines(outputAddress, output);
                     break;
             }
         }
@@ -76,7 +77,7 @@ namespace Bizz_RDPVirtualChannelMessengerClient
         {
             string[] output = new string[] { $"Channel Open Event Fired. This is good news!!! : " + DateTime.Now.ToUniversalTime(), Event.ToString(), dataFlags.ToString(),
                                             $"Data received through Virtual Channel : {Encoding.ASCII.GetString(data)}" };
-            System.IO.File.WriteAllLines(@"C:\Users\luke.schofield\Desktop\Output.txt", output);
+            System.IO.File.WriteAllLines(outputAddress, output);
         }
     }
 
