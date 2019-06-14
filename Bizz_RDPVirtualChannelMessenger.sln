@@ -1,0 +1,41 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.572
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bizz_RDPVirtualChannelMessengerServer", "Bizz_RDPVirtualChannelMessenger\Bizz_RDPVirtualChannelMessengerServer.csproj", "{43D1902F-3D73-46B7-8D21-E871A2949A64}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bizz_RDPVirtualChannelMessengerClient", "Bizz_RDPVirtualChannelMessengerClient\Bizz_RDPVirtualChannelMessengerClient.csproj", "{BE601594-4B42-46A1-AC60-4D29BE0ACEE2}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|x64 = Debug|x64
+		Release|Any CPU = Release|Any CPU
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{43D1902F-3D73-46B7-8D21-E871A2949A64}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{43D1902F-3D73-46B7-8D21-E871A2949A64}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{43D1902F-3D73-46B7-8D21-E871A2949A64}.Debug|x64.ActiveCfg = Debug|x64
+		{43D1902F-3D73-46B7-8D21-E871A2949A64}.Debug|x64.Build.0 = Debug|x64
+		{43D1902F-3D73-46B7-8D21-E871A2949A64}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{43D1902F-3D73-46B7-8D21-E871A2949A64}.Release|Any CPU.Build.0 = Release|Any CPU
+		{43D1902F-3D73-46B7-8D21-E871A2949A64}.Release|x64.ActiveCfg = Release|x64
+		{43D1902F-3D73-46B7-8D21-E871A2949A64}.Release|x64.Build.0 = Release|x64
+		{BE601594-4B42-46A1-AC60-4D29BE0ACEE2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BE601594-4B42-46A1-AC60-4D29BE0ACEE2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BE601594-4B42-46A1-AC60-4D29BE0ACEE2}.Debug|x64.ActiveCfg = Debug|x64
+		{BE601594-4B42-46A1-AC60-4D29BE0ACEE2}.Debug|x64.Build.0 = Debug|x64
+		{BE601594-4B42-46A1-AC60-4D29BE0ACEE2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BE601594-4B42-46A1-AC60-4D29BE0ACEE2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BE601594-4B42-46A1-AC60-4D29BE0ACEE2}.Release|x64.ActiveCfg = Release|x64
+		{BE601594-4B42-46A1-AC60-4D29BE0ACEE2}.Release|x64.Build.0 = Release|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B7059133-B86F-44F2-BC49-55C90D501A57}
+	EndGlobalSection
+EndGlobal
