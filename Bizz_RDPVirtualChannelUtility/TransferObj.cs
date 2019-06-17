@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Bizz_RDPVirtualChannelMessengerClient
+namespace Bizz_RDPVirtualChannelUtility
 {
     [Serializable]
     public class TransferObj

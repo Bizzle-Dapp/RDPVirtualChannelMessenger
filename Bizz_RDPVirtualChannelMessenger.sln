@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bizz_RDPVirtualChannelMesse
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bizz_RDPVirtualChannelMessengerClient", "Bizz_RDPVirtualChannelMessengerClient\Bizz_RDPVirtualChannelMessengerClient.csproj", "{BE601594-4B42-46A1-AC60-4D29BE0ACEE2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bizz_RDPVirtualChannelUtility", "Bizz_RDPVirtualChannelUtility\Bizz_RDPVirtualChannelUtility.csproj", "{B58BF454-E8C6-431E-917B-CA61D9D4EBF1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,6 +33,14 @@ Global
 		{BE601594-4B42-46A1-AC60-4D29BE0ACEE2}.Release|Any CPU.Build.0 = Release|Any CPU
 		{BE601594-4B42-46A1-AC60-4D29BE0ACEE2}.Release|x64.ActiveCfg = Release|x64
 		{BE601594-4B42-46A1-AC60-4D29BE0ACEE2}.Release|x64.Build.0 = Release|x64
+		{B58BF454-E8C6-431E-917B-CA61D9D4EBF1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B58BF454-E8C6-431E-917B-CA61D9D4EBF1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B58BF454-E8C6-431E-917B-CA61D9D4EBF1}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{B58BF454-E8C6-431E-917B-CA61D9D4EBF1}.Debug|x64.Build.0 = Debug|Any CPU
+		{B58BF454-E8C6-431E-917B-CA61D9D4EBF1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B58BF454-E8C6-431E-917B-CA61D9D4EBF1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B58BF454-E8C6-431E-917B-CA61D9D4EBF1}.Release|x64.ActiveCfg = Release|Any CPU
+		{B58BF454-E8C6-431E-917B-CA61D9D4EBF1}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

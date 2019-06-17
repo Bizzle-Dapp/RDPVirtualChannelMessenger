@@ -88,7 +88,6 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-    <Compile Include="TransferObj.cs" />
     <Compile Include="VirtualChannelClient.cs" />
     <Compile Include="WtsApi32.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -99,6 +98,12 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Bizz_RDPVirtualChannelUtility\Bizz_RDPVirtualChannelUtility.csproj">
+      <Project>{b58bf454-e8c6-431e-917b-ca61d9d4ebf1}</Project>
+      <Name>Bizz_RDPVirtualChannelUtility</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <ImportGroup Label=".NET DllExport">

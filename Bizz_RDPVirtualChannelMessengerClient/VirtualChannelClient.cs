@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Bizz_RDPVirtualChannelUtility;
+using System;
 using System.Runtime.InteropServices;
 using System.Text;
 using static Bizz_RDPVirtualChannelMessengerClient.WtsApi32;
@@ -107,7 +108,7 @@ namespace Bizz_RDPVirtualChannelMessengerClient
                             else
                             {
                                 var receivedData = utility.UnpackObjectFromByteArray(data);
-                                var castData = (TransferObj)receivedData;
+                                var castData = utility.CastObjectToTransferObj(receivedData);
                                 output = new string[] {$"Channel Open Event Fired: {Event.ToString()} : " + DateTime.Now.ToUniversalTime(),
                                                         $"Data received through Virtual Channel : " +
                                                         //$"{utility.CastObjectToTransferObj(utility.UnpackObjectFromByteArray(data)).Name}" };
