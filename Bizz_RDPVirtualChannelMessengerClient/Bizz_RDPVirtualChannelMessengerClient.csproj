@@ -87,6 +87,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="TransferObj.cs" />
     <Compile Include="VirtualChannelClient.cs" />
     <Compile Include="WtsApi32.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

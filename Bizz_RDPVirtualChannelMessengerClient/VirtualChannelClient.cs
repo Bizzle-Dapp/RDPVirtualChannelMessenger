@@ -95,7 +95,7 @@ namespace Bizz_RDPVirtualChannelMessengerClient
                 case ChannelEvents.DataRecived:
                     {
                         string[] output = new string[] { $"Channel Open Event Fired : {Event.ToString()} : " + DateTime.Now.ToUniversalTime(),
-                                            $"Data received through Virtual Channel : {Encoding.ASCII.GetString(data)}" + Environment.NewLine };
+                                                        $"Data received through Virtual Channel : {Encoding.ASCII.GetString(data)}" + Environment.NewLine };
                         System.IO.File.WriteAllLines(outputAddress, output);
                         foreach (var s in output) { Console.WriteLine(s); }
                         Console.WriteLine(Environment.NewLine);
