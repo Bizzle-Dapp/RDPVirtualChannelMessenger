@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Text;
-using Bizz_RDPVirtualChannelMessenger;
 
 namespace Bizz_RDPVirtualChannelMessengerServer
 {
@@ -31,7 +30,12 @@ namespace Bizz_RDPVirtualChannelMessengerServer
                 case ConsoleKey.D1:
                     {
                         Console.WriteLine($"Please enter text to send: {Environment.NewLine}");
-                        var ret = VirtualChannel.WriteChannel(Console.ReadLine());
+
+                        //var ret = VirtualChannel.WriteChannel(Console.ReadLine());
+                        TransferObj transferObj = new TransferObj();
+                        transferObj.Name = Console.ReadLine();
+                        transferObj.Value = 1;
+                        var ret = VirtualChannel.WriteChannel(transferObj);
                         Console.WriteLine($"Write to channel returned: {ret}.");
                         Console.WriteLine("Press enter to continue...");
                         Console.ReadLine();
@@ -40,7 +44,8 @@ namespace Bizz_RDPVirtualChannelMessengerServer
                     }
                 case ConsoleKey.D2:
                     {
-                        Console.WriteLine(VirtualChannel.ReadChannel());
+                        //Console.WriteLine(VirtualChannel.ReadChannelForString());
+                        Console.WriteLine(VirtualChannel.ReadChannelForObject());
                         DisplayChoice();
                         break;
                     }
@@ -69,7 +74,7 @@ namespace Bizz_RDPVirtualChannelMessengerServer
             mHandle = WtsApi32.WTSVirtualChannelOpen(IntPtr.Zero, -1, channelName);
         }
 
-        public static string ReadChannel()
+        public static string ReadChannelForString()
         {
             string output;
             byte[] data = new byte[1600];
@@ -85,6 +90,20 @@ namespace Bizz_RDPVirtualChannelMessengerServer
 
             return output;
         }
+        public static TransferObj ReadChannelForObject()
+        {
+            PackerUnpacker utility = new PackerUnpacker();
+            object output;
+            byte[] data = new byte[1600];
+            int read = 0;
+            if(WtsApi32.WTSVirtualChannelRead(mHandle, 2000, data, data.Length, ref read))
+            {
+                output = utility.UnpackObjectFromByteArray(data);
+                return utility.CastObjectToTransferObj(output);
+            }
+            else { return null; }
+        }
+       
         public static bool WriteChannel(string message)
         {
             byte[] data = Encoding.ASCII.GetBytes(message);
@@ -93,6 +112,18 @@ namespace Bizz_RDPVirtualChannelMessengerServer
             if(bytesWritten == data.Length)
             {
                 Console.WriteLine($"Written string of {message} as a total of {data.Length.ToString()} bytes.");
+            }
+            return returnValue;
+        }
+        public static bool WriteChannel(TransferObj transObj)
+        {
+            PackerUnpacker utility = new PackerUnpacker();
+            byte[] data = utility.PackObjectToByteArray(transObj);
+            int bytesWritten = 0;
+            bool returnValue = WtsApi32.WTSVirtualChannelWrite(mHandle, data, data.Length, ref bytesWritten);
+            if (bytesWritten == data.Length)
+            {
+                Console.WriteLine($"TransferObj with name: {transObj.Name} has been sent as total of {data.Length.ToString()} bytes.");
             }
             return returnValue;
         }

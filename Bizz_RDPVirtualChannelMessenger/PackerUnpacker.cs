@@ -1,9 +1,8 @@
-﻿using Bizz_RDPVirtualChannelMessenger;
-using System;
+﻿using System;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 
-namespace Bizz_RDPVirtualChannelMessengerClient
+namespace Bizz_RDPVirtualChannelMessengerServer
 {
     public class PackerUnpacker
     {

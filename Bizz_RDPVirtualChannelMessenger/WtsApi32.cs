@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
-namespace Bizz_RDPVirtualChannelMessenger
+namespace Bizz_RDPVirtualChannelMessengerServer
 {
     public class WtsApi32
     {

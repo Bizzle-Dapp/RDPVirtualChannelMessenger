@@ -1,5 +1,4 @@
-﻿using Bizz_RDPVirtualChannelMessenger;
-using System;
+﻿using System;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 
@@ -23,14 +22,15 @@ namespace Bizz_RDPVirtualChannelMessengerClient
             }
         }
 
-        public object UnpackObjectFromByteArray(byte[] b)
+        public Object UnpackObjectFromByteArray(byte[] b)
         {
             using (MemoryStream memStream = new MemoryStream())
             {
                 BinaryFormatter binFormat = new BinaryFormatter();
                 memStream.Write(b, 0, b.Length);
                 memStream.Seek(0, SeekOrigin.Begin);
-                return (Object)binFormat.Deserialize(memStream);
+                Object obj = (Object)binFormat.Deserialize(memStream);
+                return obj;
             }
         }
 

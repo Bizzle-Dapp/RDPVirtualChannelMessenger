@@ -8,6 +8,10 @@ namespace Bizz_RDPVirtualChannelMessengerClient
     
     class VirtualChannelClient
     {
+        // SET BOOL TO TRUE IF USING STRING TRANSFER AND NOT OBJECT TRANSFER [Testing Purposes]
+        static bool usingString = false;
+
+
         [DllImport("kernel32.dll")]
         [return: MarshalAs(UnmanagedType.Bool)]
         static extern bool AllocConsole();
@@ -87,18 +91,51 @@ namespace Bizz_RDPVirtualChannelMessengerClient
         }
         private static void VirtualChannelOpenEvent(int openHandle, ChannelEvents Event, byte[] data, int dataLength, uint totalLength, ChannelFlags dataFlags)
         {
+            PackerUnpacker utility = new PackerUnpacker();
             switch(Event)
             {
                 case ChannelEvents.DataRecived:
                     {
-                        string[] output = new string[] { $"Channel Open Event Fired : {Event.ToString()} : " + DateTime.Now.ToUniversalTime(),
+                        string[] output;
+                        try
+                        {
+                            if (usingString)
+                            {
+                                output = new string[] { $"Channel Open Event Fired : {Event.ToString()} : " + DateTime.Now.ToUniversalTime(),
                                                         $"Data received through Virtual Channel : {Encoding.ASCII.GetString(data)}" + Environment.NewLine };
-                        System.IO.File.WriteAllLines(outputAddress, output);
-                        foreach (var s in output) { Console.WriteLine(s); }
-                        Console.WriteLine(Environment.NewLine);
-                        Console.WriteLine("Please enter your response: ");
-                        var response = Console.ReadLine();
-                        EntryPoints.VirtualChannelWrite(openHandle, Encoding.ASCII.GetBytes(response), (uint)Encoding.ASCII.GetBytes(response).Length, IntPtr.Zero);
+                            }
+                            else
+                            {
+                                var receivedData = utility.UnpackObjectFromByteArray(data);
+                                var castData = (TransferObj)receivedData;
+                                output = new string[] {$"Channel Open Event Fired: {Event.ToString()} : " + DateTime.Now.ToUniversalTime(),
+                                                        $"Data received through Virtual Channel : " +
+                                                        //$"{utility.CastObjectToTransferObj(utility.UnpackObjectFromByteArray(data)).Name}" };
+                                                        $"{castData.Name}" };
+                            }
+
+                            System.IO.File.WriteAllLines(outputAddress, output);
+                            foreach (var s in output) { Console.WriteLine(s); }
+                            Console.WriteLine(Environment.NewLine);
+                            Console.WriteLine("Please enter your response: ");
+                            var response = Console.ReadLine();
+                            if (usingString)
+                            {
+                                EntryPoints.VirtualChannelWrite(openHandle, Encoding.ASCII.GetBytes(response), (uint)Encoding.ASCII.GetBytes(response).Length, IntPtr.Zero);
+
+                            }
+                            else
+                            {
+                                TransferObj toSend = new TransferObj();
+                                toSend.Name = response;
+                                toSend.Value = 1;
+                                EntryPoints.VirtualChannelWrite(openHandle, utility.PackObjectToByteArray(response), (uint)utility.PackObjectToByteArray(response).Length, IntPtr.Zero);
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                            Console.WriteLine(e);
+                        }
                         break;
                     }
                 default:
@@ -108,8 +145,9 @@ namespace Bizz_RDPVirtualChannelMessengerClient
                         break;
                     }
             }
-            
         }
+
+        
     }
 
 }

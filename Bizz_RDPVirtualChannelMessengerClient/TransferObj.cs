@@ -1,11 +1,11 @@
 ﻿using System;
 
-namespace Bizz_RDPVirtualChannelMessenger
+namespace Bizz_RDPVirtualChannelMessengerClient
 {
     [Serializable]
     public class TransferObj
     {
-        string Name { get; set; }
-        int Value { get; set; }
+        public string Name { get; set; }
+        public int Value { get; set; }
     }
 }
