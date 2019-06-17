@@ -1,5 +1,8 @@
-﻿namespace Bizz_RDPVirtualChannelMessenger
+﻿using System;
+
+namespace Bizz_RDPVirtualChannelMessenger
 {
+    [Serializable]
     public class TransferObj
     {
         string Name { get; set; }
