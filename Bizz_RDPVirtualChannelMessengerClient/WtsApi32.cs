@@ -18,27 +18,39 @@ namespace Bizz_RDPVirtualChannelMessengerClient
         // Event Delegates 
         public delegate ChannelReturnCodes VirtualChannelInitDelegate
             (ref IntPtr initHandle,
-            ChannelDef[] channels, int channelCount, int versionRequested,
-            [MarshalAs(UnmanagedType.FunctionPtr)]
-            ChannelInitEventDelegate channelInitEventProc);
+            ChannelDef[] channels, 
+            int channelCount, 
+            int versionRequested,
+            [MarshalAs(UnmanagedType.FunctionPtr)] ChannelInitEventDelegate channelInitEventProc);
+
         public delegate ChannelReturnCodes VirtualChannelOpenDelegate
-            (IntPtr initHandle, ref int openHandle,
+            (IntPtr initHandle, 
+            ref int openHandle,
             [MarshalAs(UnmanagedType.LPStr)] string channelName,
-            [MarshalAs(UnmanagedType.FunctionPtr)]
-            ChannelOpenEventDelegate channelOpenEventProc);
+            [MarshalAs(UnmanagedType.FunctionPtr)] ChannelOpenEventDelegate channelOpenEventProc);
+
         public delegate ChannelReturnCodes VirtualChannelWriteDelegate
-            (int openHandle, byte[] data, uint dataLength, IntPtr userData);
+            (int openHandle, 
+            byte[] data, 
+            uint dataLength, 
+            IntPtr userData);
+
         public delegate ChannelReturnCodes VirtualChannelCloseDelegate
             (int openHandle);
 
-        public delegate void ChannelInitEventDelegate(IntPtr initHandle,
+        public delegate void ChannelInitEventDelegate
+            (IntPtr initHandle,
             ChannelEvents Event,
-            [MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 3)]
-            byte[] data, int dataLength);
-        public delegate void ChannelOpenEventDelegate(int openHandle,
+            [MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 3)] byte[] data, 
+            int dataLength);
+
+        public delegate void ChannelOpenEventDelegate
+            (int openHandle,
             ChannelEvents Event,
             [MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 3)] byte[] data,
-            int dataLength, uint totalLength, ChannelFlags dataFlags);
+            int dataLength, 
+            uint totalLength, 
+            ChannelFlags dataFlags);
 
         // Channel Entry points structure required for Virtual Channel communication.
         [StructLayout(LayoutKind.Sequential)]
