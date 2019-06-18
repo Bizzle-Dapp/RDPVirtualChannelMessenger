@@ -136,8 +136,8 @@ namespace Bizz_RDPVirtualChannelMessengerClient
                                     var castData = utility.CastObjectToTransferObj(receivedData);
                                     output = new string[] {$"Channel Open Event Fired: {Event.ToString()} : " + DateTime.Now.ToUniversalTime(),
                                                         $"Data received through Virtual Channel : " +
-                                                        //$"{utility.CastObjectToTransferObj(utility.UnpackObjectFromByteArray(data)).Name}" };
-                                                        $"{castData.Name}" };
+                                                        $"{ (castData == null ? "Nothing there" : $"{castData.Name}") }" } ;
+                                                         //$"{utility.CastObjectToTransferObj(utility.UnpackObjectFromByteArray(data)).Name}" };
                                 }
 
                                 System.IO.File.WriteAllLines(outputAddress, output);
@@ -155,7 +155,7 @@ namespace Bizz_RDPVirtualChannelMessengerClient
                                     TransferObj toSend = new TransferObj();
                                     toSend.Name = response;
                                     toSend.Value = 1;
-                                    EntryPoints.VirtualChannelWrite(openHandle, utility.PackObjectToByteArray(response), (uint)utility.PackObjectToByteArray(response).Length, IntPtr.Zero);
+                                    EntryPoints.VirtualChannelWrite(openHandle, utility.PackObjectToByteArray(toSend), (uint)utility.PackObjectToByteArray(toSend).Length, IntPtr.Zero);
                                 }
                             }
                             catch (Exception e)

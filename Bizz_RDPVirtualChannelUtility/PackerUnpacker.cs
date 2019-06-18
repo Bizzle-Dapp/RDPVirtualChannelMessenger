@@ -23,27 +23,25 @@ namespace Bizz_RDPVirtualChannelUtility
             }
         }
 
-        public Object UnpackObjectFromByteArray(byte[] b)
+        public TransferObj UnpackObjectFromByteArray(byte[] b)
         {
             using (MemoryStream memStream = new MemoryStream())
             {
                 BinaryFormatter binFormat = new BinaryFormatter();
                 memStream.Write(b, 0, b.Length);
                 memStream.Seek(0, SeekOrigin.Begin);
-                Object obj = (Object)binFormat.Deserialize(memStream);
-                return obj;
-            }
-        }
-
-        public TransferObj CastObjectToTransferObj(object o)
-        {
-            try
-            {
-                return (TransferObj)o;
-            }
-            catch
-            {
-                return null;
+                
+                try
+                {
+                    var obj = binFormat.Deserialize(memStream);
+                    return (TransferObj)obj;
+                }
+                catch(Exception e)
+                {
+                    Console.WriteLine($"Failed to deserialize to TransferObj : {e}");
+                    return null;
+                }
+                
             }
         }
     }

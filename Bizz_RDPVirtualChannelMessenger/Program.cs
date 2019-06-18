@@ -46,7 +46,9 @@ namespace Bizz_RDPVirtualChannelMessengerServer
                 case ConsoleKey.D2:
                     {
                         //Console.WriteLine(VirtualChannel.ReadChannelForString());
-                        Console.WriteLine(VirtualChannel.ReadChannelForObject());
+                        var ret = new TransferObj(); 
+                        ret = VirtualChannel.ReadChannelForObject();
+                        Console.WriteLine( (ret == null ? "Nothing there..." : ret.Name)  );
                         DisplayChoice();
                         break;
                     }
@@ -94,13 +96,14 @@ namespace Bizz_RDPVirtualChannelMessengerServer
         public static TransferObj ReadChannelForObject()
         {
             PackerUnpacker utility = new PackerUnpacker();
-            object output;
+            TransferObj output = new TransferObj();
             byte[] data = new byte[1600];
             int read = 0;
             if(WtsApi32.WTSVirtualChannelRead(mHandle, 2000, data, data.Length, ref read))
             {
                 output = utility.UnpackObjectFromByteArray(data);
-                return utility.CastObjectToTransferObj(output);
+                //TransferObj transferObj = utility.CastObjectToTransferObj(output);
+                return output;
             }
             else { return null; }
         }
