@@ -3,7 +3,7 @@ using System;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 
-namespace Bizz_RDPVirtualChannelMessengerClient
+namespace Bizz_RDPVirtualChannelUtility
 {
     public class PackerUnpacker
     {

@@ -30,122 +30,155 @@ namespace Bizz_RDPVirtualChannelMessengerClient
         [DllExport]
         public static bool VirtualChannelEntry(ref ChannelEntryPoints entry)
         {
-            ChannelDef[] channeldefinition = new ChannelDef[1];
-            channeldefinition[0] = new ChannelDef();
-            EntryPoints = entry;
-
-            channeldefinition[0].name = channelName;
-            ChannelReturnCodes ret = EntryPoints.VirtualChannelInit(ref Channel, channeldefinition, 1, 1, channelInitEventDelegate);
-
-            AllocConsole();
-            Console.WriteLine("Console Created!.");
-
-            if (ret != ChannelReturnCodes.Ok)
+            AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
+            try
             {
-                // Failed call of VirtualChannelEntry
-                string[] output = { $"Failed VirtualChannelEntry - {ret.ToString()} : " + DateTime.Now.ToUniversalTime() };
-                System.IO.File.WriteAllLines(outputAddress, output);
-                foreach(var s in output){ Console.WriteLine(s); }
+                ChannelDef[] channeldefinition = new ChannelDef[1];
+                channeldefinition[0] = new ChannelDef();
+                EntryPoints = entry;
+
+                channeldefinition[0].name = channelName;
+                ChannelReturnCodes ret = EntryPoints.VirtualChannelInit(ref Channel, channeldefinition, 1, 1, channelInitEventDelegate);
+
+                AllocConsole();
+                Console.WriteLine("Console Created!.");
+
+                if (ret != ChannelReturnCodes.Ok)
+                {
+                    // Failed call of VirtualChannelEntry
+                    string[] output = { $"Failed VirtualChannelEntry - {ret.ToString()} : " + DateTime.Now.ToUniversalTime() };
+                    System.IO.File.WriteAllLines(outputAddress, output);
+                    foreach (var s in output) { Console.WriteLine(s); }
+                }
+                else
+                {
+                    //Successful call of VirtualChannelEntry
+                    string[] output = { $"Success VirtualChannelEntry - {ret.ToString()} : " + DateTime.Now.ToUniversalTime() };
+                    System.IO.File.WriteAllLines(outputAddress, output);
+                    foreach (var s in output) { Console.WriteLine(s); }
+                }
+                return true;
             }
-            else
+            catch (Exception e)
             {
-                //Successful call of VirtualChannelEntry
-                string[] output = { $"Success VirtualChannelEntry - {ret.ToString()} : " + DateTime.Now.ToUniversalTime() };
-                System.IO.File.WriteAllLines(outputAddress, output);
-                foreach(var s in output){ Console.WriteLine(s); }
+                Console.WriteLine($"virtualchannelEntry : {e.ToString()}");
+                return false;
             }
-            return true;
+        }
+
+        private static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+            Console.WriteLine($"DDDang it! {e.ExceptionObject.ToString()} T");
+            Console.ReadKey();
         }
 
         private static void VirtualChannelInitEventProc(IntPtr initHandle, ChannelEvents Event, byte[] data, int dataLength)
         {
-            string[] output = { };
-            switch (Event)
+            try
             {
-                case ChannelEvents.Initialized:
-                    output = new string[] { $"Channel initialised. : " + DateTime.Now.ToUniversalTime() };
-                    System.IO.File.WriteAllLines(outputAddress, output);
-                    foreach(var s in output){ Console.WriteLine(s); }
-                    break;
-                case ChannelEvents.Connected:
-                    output = new string [] { $"Channel connected. Calling to channel open event delegate : " + DateTime.Now.ToUniversalTime() };
-                    System.IO.File.WriteAllLines(outputAddress, output);
-                    foreach(var s in output){ Console.WriteLine(s); }
-                    ChannelReturnCodes ret = EntryPoints.VirtualChannelOpen(initHandle, ref OpenChannel, channelName, channelOpenEventDelegate);
-                    break;
-                case ChannelEvents.V1Connected:
-                    output = new string[] { $"v1 connected. : " + DateTime.Now.ToUniversalTime() };
-                    System.IO.File.WriteAllLines(outputAddress, output);
-                    foreach(var s in output){ Console.WriteLine(s); }
-                    break;
-                case ChannelEvents.Disconnected:
-                    output = new string[] { $"Disconnected. : " + DateTime.Now.ToUniversalTime() };
-                    System.IO.File.WriteAllLines(outputAddress, output);
-                    foreach(var s in output){ Console.WriteLine(s); }
-                    break;
-                case ChannelEvents.Terminated:
-                    output = new string[] { $"Terminated. : " + DateTime.Now.ToUniversalTime() };
-                    System.IO.File.WriteAllLines(outputAddress, output);
-                    foreach(var s in output){ Console.WriteLine(s); }
-                    break;
+                string[] output = { };
+                switch (Event)
+                {
+                    case ChannelEvents.Initialized:
+                        output = new string[] { $"Channel initialised. : " + DateTime.Now.ToUniversalTime() };
+                        System.IO.File.WriteAllLines(outputAddress, output);
+                        foreach (var s in output) { Console.WriteLine(s); }
+                        break;
+                    case ChannelEvents.Connected:
+                        output = new string[] { $"Channel connected. Calling to channel open event delegate : " + DateTime.Now.ToUniversalTime() };
+                        System.IO.File.WriteAllLines(outputAddress, output);
+                        foreach (var s in output) { Console.WriteLine(s); }
+                        ChannelReturnCodes ret = EntryPoints.VirtualChannelOpen(initHandle, ref OpenChannel, channelName, channelOpenEventDelegate);
+                        break;
+                    case ChannelEvents.V1Connected:
+                        output = new string[] { $"v1 connected. : " + DateTime.Now.ToUniversalTime() };
+                        System.IO.File.WriteAllLines(outputAddress, output);
+                        foreach (var s in output) { Console.WriteLine(s); }
+                        break;
+                    case ChannelEvents.Disconnected:
+                        output = new string[] { $"Disconnected. : " + DateTime.Now.ToUniversalTime() };
+                        System.IO.File.WriteAllLines(outputAddress, output);
+                        foreach (var s in output) { Console.WriteLine(s); }
+                        break;
+                    case ChannelEvents.Terminated:
+                        output = new string[] { $"Terminated. : " + DateTime.Now.ToUniversalTime() };
+                        System.IO.File.WriteAllLines(outputAddress, output);
+                        foreach (var s in output) { Console.WriteLine(s); }
+                        break;
+                }
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine($" THIS IS VirtualChannelInitEventProc : {e.ToString()}");
+                Console.ReadKey();
             }
         }
         private static void VirtualChannelOpenEvent(int openHandle, ChannelEvents Event, byte[] data, int dataLength, uint totalLength, ChannelFlags dataFlags)
         {
-            PackerUnpacker utility = new PackerUnpacker();
-            switch(Event)
+            try
             {
-                case ChannelEvents.DataRecived:
-                    {
-                        string[] output;
-                        try
+                PackerUnpacker utility = new PackerUnpacker();
+                switch (Event)
+                {
+                    case ChannelEvents.DataRecived:
                         {
-                            if (usingString)
+                            string[] output;
+                            try
                             {
-                                output = new string[] { $"Channel Open Event Fired : {Event.ToString()} : " + DateTime.Now.ToUniversalTime(),
+                                if (usingString)
+                                {
+                                    output = new string[] { $"Channel Open Event Fired : {Event.ToString()} : " + DateTime.Now.ToUniversalTime(),
                                                         $"Data received through Virtual Channel : {Encoding.ASCII.GetString(data)}" + Environment.NewLine };
-                            }
-                            else
-                            {
-                                var receivedData = utility.UnpackObjectFromByteArray(data);
-                                var castData = utility.CastObjectToTransferObj(receivedData);
-                                output = new string[] {$"Channel Open Event Fired: {Event.ToString()} : " + DateTime.Now.ToUniversalTime(),
+                                }
+                                else
+                                {
+                                    var receivedData = utility.UnpackObjectFromByteArray(data);
+                                    var castData = utility.CastObjectToTransferObj(receivedData);
+                                    output = new string[] {$"Channel Open Event Fired: {Event.ToString()} : " + DateTime.Now.ToUniversalTime(),
                                                         $"Data received through Virtual Channel : " +
                                                         //$"{utility.CastObjectToTransferObj(utility.UnpackObjectFromByteArray(data)).Name}" };
                                                         $"{castData.Name}" };
-                            }
+                                }
 
-                            System.IO.File.WriteAllLines(outputAddress, output);
-                            foreach (var s in output) { Console.WriteLine(s); }
-                            Console.WriteLine(Environment.NewLine);
-                            Console.WriteLine("Please enter your response: ");
-                            var response = Console.ReadLine();
-                            if (usingString)
-                            {
-                                EntryPoints.VirtualChannelWrite(openHandle, Encoding.ASCII.GetBytes(response), (uint)Encoding.ASCII.GetBytes(response).Length, IntPtr.Zero);
+                                System.IO.File.WriteAllLines(outputAddress, output);
+                                foreach (var s in output) { Console.WriteLine(s); }
+                                Console.WriteLine(Environment.NewLine);
+                                Console.WriteLine("Please enter your response: ");
+                                var response = Console.ReadLine();
+                                if (usingString)
+                                {
+                                    EntryPoints.VirtualChannelWrite(openHandle, Encoding.ASCII.GetBytes(response), (uint)Encoding.ASCII.GetBytes(response).Length, IntPtr.Zero);
 
+                                }
+                                else
+                                {
+                                    TransferObj toSend = new TransferObj();
+                                    toSend.Name = response;
+                                    toSend.Value = 1;
+                                    EntryPoints.VirtualChannelWrite(openHandle, utility.PackObjectToByteArray(response), (uint)utility.PackObjectToByteArray(response).Length, IntPtr.Zero);
+                                }
                             }
-                            else
+                            catch (Exception e)
                             {
-                                TransferObj toSend = new TransferObj();
-                                toSend.Name = response;
-                                toSend.Value = 1;
-                                EntryPoints.VirtualChannelWrite(openHandle, utility.PackObjectToByteArray(response), (uint)utility.PackObjectToByteArray(response).Length, IntPtr.Zero);
+                                Console.WriteLine(e);
                             }
+                            break;
                         }
-                        catch (Exception e)
+                    default:
                         {
-                            Console.WriteLine(e);
+                            string[] output = new string[] { $"Channel Open Event Fired : {Event.ToString()} : " + DateTime.Now.ToUniversalTime() };
+                            foreach (var s in output) { Console.WriteLine(s); }
+                            break;
                         }
-                        break;
-                    }
-                default:
-                    {
-                        string[] output = new string[] { $"Channel Open Event Fired : {Event.ToString()} : " + DateTime.Now.ToUniversalTime() };
-                        foreach (var s in output) { Console.WriteLine(s); }
-                        break;
-                    }
+                }
             }
+            catch(Exception ALLOFTHEM)
+            {
+                Console.WriteLine($" VirtualChannelOpenEvent : { ALLOFTHEM.ToString() }");
+                Console.ReadKey();
+            }
+
+
         }
 
         
