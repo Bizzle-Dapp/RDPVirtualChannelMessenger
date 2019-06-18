@@ -133,10 +133,9 @@ namespace Bizz_RDPVirtualChannelMessengerClient
                                 else
                                 {
                                     var receivedData = utility.UnpackObjectFromByteArray(data);
-                                    var castData = utility.CastObjectToTransferObj(receivedData);
                                     output = new string[] {$"Channel Open Event Fired: {Event.ToString()} : " + DateTime.Now.ToUniversalTime(),
                                                         $"Data received through Virtual Channel : " +
-                                                        $"{ (castData == null ? "Nothing there" : $"{castData.Name}") }" } ;
+                                                        $"{ (receivedData == null ? "Nothing there" : $"{receivedData.Name}") }" } ;
                                                          //$"{utility.CastObjectToTransferObj(utility.UnpackObjectFromByteArray(data)).Name}" };
                                 }
 
